@@ -1,0 +1,17 @@
+services:
+  distance-reconstruction:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: moveinsync-distance-service
+    ports:
+      - "8080:8080"
+    environment:
+      - SERVER_PORT=8080
+      - MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE=health,info,metrics
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
